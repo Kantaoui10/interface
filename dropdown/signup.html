@@ -1,0 +1,93 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./login_signup.css" />
+    <link rel="stylesheet" href="../navbar.css" />
+  </head>
+  <body>
+    <div id="navbar"></div>
+    <div id="main">
+      <div id="logo">
+        <div>
+          <img src="/image/loginlogo.png" alt="" />
+          <h1>Airtable</h1>
+        </div>
+      </div>
+      <div id="header">
+        <h2>Create your free account</h2>
+      </div>
+      <form onsubmit="myFun()" class="mainDiv">
+        <div>
+          <h3>Name:-</h3>
+
+          <input type="text" id="name" placeholder="eg: John Simon Smith" />
+        </div>
+        <div>
+          <h3>Mail ID:-</h3>
+
+          <input type="email" id="mail" placeholder="xyz@gmail.com" />
+        </div>
+        <div>
+          <h3>Username</h3>
+          <input type="text" id="username" placeholder="John_Smith" />
+        </div>
+        <div>
+          <h3>Password</h3>
+          <input type="password" id="pass" placeholder="**********" />
+        </div>
+
+        <input type="submit" id="submit" value="Signup" />
+      </form>
+    </div>
+  </body>
+</html>
+<script>
+  // import nav from "../components/navbar.js";
+  // document.getElementById("navbar").innerHTML = nav;
+  async function myFun() {
+    event.preventDefault();
+    let name = document.getElementById("name");
+    let email = document.getElementById("mail");
+    let password = document.getElementById("pass");
+    let username = document.getElementById("username");
+    let data = {
+      name: document.getElementById("name").value,
+      email: document.getElementById("mail").value,
+      password: document.getElementById("pass").value,
+      username: document.getElementById("username").value,
+    };
+
+    try {
+      let body1 = JSON.stringify(data);
+      console.log(body1);
+      let signupLink = "https://masai-api-mocker.herokuapp.com/auth/register";
+      let res = await fetch(signupLink, {
+        method: "POST",
+        body: body1,
+        headers: { "Content-Type": "application/json" },
+      });
+      let signupData = await res.json();
+      console.log(signupData);
+      if (signupData.error === true) {
+        alert("SignUp Success");
+        location.href = "/dropdown/login.html";
+      } else {
+        alert("User Already Exists");
+        name.value = "";
+        username.value = "";
+        description.value = "";
+        email.value = "";
+        password.value = "";
+      }
+      console.log(signupData.error);
+    } catch (error) {
+      alert(error);
+      location.href = "/dropdown/login.html";
+      // console.log(error);
+      // alert(error);
+    }
+  }
+</script>

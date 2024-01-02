@@ -1,0 +1,61 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <link rel="stylesheet" href="./login_signup.css" />
+  <body>
+    <div id="main">
+      <div id="logo">
+        <div>
+          <img src="/image/loginlogo.png" alt="" />
+          <h1>Airtable</h1>
+        </div>
+      </div>
+      <div id="header">
+        <h2>Enter your Login details</h2>
+      </div>
+      <form onsubmit="loginFun()" class="mainDiv">
+        <div>
+          <h3>Username:-</h3>
+          <input type="text" id="username" placeholder="John_Smith" />
+        </div>
+        <div>
+          <h3>Password</h3>
+          <input type="password" id="password" placeholder="***********" />
+        </div>
+        <div>
+          <input type="submit" id="submit" />
+        </div>
+      </form>
+    </div>
+  </body>
+</html>
+<script>
+  async function loginFun() {
+    console.log("hey");
+    location.href = "/landing page/landing.html";
+    event.preventDefault();
+    let loginData = {
+      password: document.getElementById("password").value,
+      username: document.getElementById("username").value,
+    };
+    try {
+      let link = "https://masai-api-mocker.herokuapp.com/auth/login";
+      let response = await fetch(link, {
+        method: "POST",
+        body: JSON.stringify(loginData),
+        headers: { "content-type": "application/json" },
+      });
+      let data = await response.json();
+      if (data.error === true) {
+        alert("Login Successful!");
+        location.href = "./landing page/landing.html";
+      }
+    } catch (err) {
+      console.log("hi");
+    }
+  }
+</script>
